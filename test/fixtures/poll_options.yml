@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  poll_id: 1
+  option: MyText
+
+two:
+  poll_id: 1
+  option: MyText
