@@ -1,6 +1,6 @@
 class PollOption < ApplicationRecord
-	belongs_to :user
+	has_one :user, :through => :poll
 	belongs_to :poll
 	has_many :votes
-	validates_presence_of :user_id, :poll_id
+	validates_presence_of :poll_id
 end
