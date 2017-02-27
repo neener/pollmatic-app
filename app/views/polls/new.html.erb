@@ -3,15 +3,9 @@
     <%= poll.text_field :question %><br>
 
     Options: <br>
-    <%= poll.fields_for :polls_options do |polls_form| %>
-    	<%= polls_form.text_field :option %>
-    <% end %><br>
-    <%= poll.fields_for :polls_options do |polls_form| %>
-    	<%= polls_form.text_field :option %><br>
-    <% end %>
-    <%= poll.fields_for :polls_options do |polls_form| %>
-    	<%= polls_form.text_field :option %><br>
-    <% end %>
-
+    <%= text_field_tag 'poll[poll_option_options][]' %>
+    <%= text_field_tag 'poll[poll_option_options][]' %>
+    <%= text_field_tag 'poll[poll_option_options][]' %>
+    
     <%= poll.submit %>
 <% end %>

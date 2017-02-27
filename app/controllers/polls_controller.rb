@@ -10,11 +10,13 @@ class PollsController < ApplicationController
 	end
 
 	def create
-		@poll = Poll.create!(poll_params.merge(:user_id => current_user.id))
+		@poll = Poll.create(poll_params.merge(:user_id => current_user.id))
+		redirect_to poll_path(@poll)
 	end
 
 	def show
 		@poll = Poll.find(params[:id])
+		@vote = Vote.new
 	end
 
 	def destroy
@@ -32,6 +34,6 @@ class PollsController < ApplicationController
 	private
 
 	def poll_params
-		params.require(:poll).permit(:question)
+		params.require(:poll).permit(:question, :poll_option_options => [])
 	end
 end

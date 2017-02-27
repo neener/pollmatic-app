@@ -1,2 +1,9 @@
 <%= @poll.question %>
 
+<%= form_for @vote do |f| %>
+	<% @poll.poll_options.each do |poll_option| %>
+		<%= f.radio_button :poll_option_id, :value =>poll_option.id %>
+		<%= f.label :poll_option_id, poll_option.option %><br />
+	<% end %>
+	<% f.submit %>
+<% end %>
