@@ -9,4 +9,10 @@ class Poll < ApplicationRecord
 			self.poll_options.build(option: option)
 		end
 	end
+
+	def results
+		poll_options.map do |poll_option|
+			[poll_option.option, poll_option.votes.count]
+		end
+	end
 end

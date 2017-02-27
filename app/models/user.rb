@@ -21,4 +21,8 @@ class User < ApplicationRecord
 	    # user.skip_confirmation!
 	  end
 	end
+
+	def voted_on?(poll_id)
+		Vote.where(user_id: self.id, poll_id: poll_id).exists?
+	end
 end

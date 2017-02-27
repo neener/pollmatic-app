@@ -10,13 +10,19 @@ class PollsController < ApplicationController
 	end
 
 	def create
-		@poll = Poll.create(poll_params.merge(:user_id => current_user.id))
+		@poll = Poll.create!(poll_params.merge(:user_id => current_user.id))
 		redirect_to poll_path(@poll)
 	end
 
 	def show
 		@poll = Poll.find(params[:id])
-		@vote = Vote.new
+		if current_user.voted_on?(params[:id])
+			@results = @poll.results
+			render :show
+		else 
+			@vote = Vote.new
+			render :form
+		end
 	end
 
 	def destroy

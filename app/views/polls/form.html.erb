@@ -1,0 +1,10 @@
+<%= @poll.question %>
+
+<%= form_for @vote do |f| %>
+	<%= f.hidden_field :poll_id, value: @poll.id %>
+	<% @poll.poll_options.each do |poll_option| %>
+		<%= f.radio_button :poll_option_id, poll_option.id %>
+		<%= f.label :poll_option_id, poll_option.option %><br />
+	<% end %>
+	<%= f.submit %>
+<% end %>
