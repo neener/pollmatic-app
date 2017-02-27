@@ -1,7 +1,7 @@
 # Specifications for the Rails Assessment
 
 Specs:
-- [x] Using Ruby on Rails for the project
+- [x] Using Ruby on Rails for the project *rails new*
 
 - [x] Include at least one has_many relationship (x has_many y e.g. User has_many Recipes) 
 - [x] Include at least one belongs_to relationship (x belongs_to y e.g. Post belongs_to User)
@@ -11,8 +11,8 @@ Specs:
 
 - [x] Include reasonable validations for simple model objects (list of model objects with validations e.g. User, Recipe, Ingredient, Item)
 
-- [ ] Include a class level ActiveRecord scope method (model object & class method name and URL to see the working feature e.g. User.most_recipes URL: /users/most_recipes)
-- [ ] Include a nested form writing to an associated model using a custom attribute writer (form URL, model name e.g. /recipe/new, Item)
+- [x] Include a class level ActiveRecord scope method (model object & class method name and URL to see the working feature e.g. User.most_recipes URL: /users/most_recipes)
+- [x] Include a nested form writing to an associated model using a custom attribute writer (form URL, model name e.g. /recipe/new, Item)
 
 - [x] Include signup (how e.g. Devise)
 - [x] Include login (how e.g. Devise)

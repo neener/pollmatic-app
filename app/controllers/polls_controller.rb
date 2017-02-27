@@ -2,7 +2,7 @@ class PollsController < ApplicationController
 	before_action :authenticate_user!, only: [:new, :create, :destroy]
 	
 	def index
-		@polls = Poll.all
+		@polls = Poll.active
 	end
 
 	def new
@@ -10,13 +10,13 @@ class PollsController < ApplicationController
 	end
 
 	def create
-		@poll = Poll.create!(poll_params.merge(:user_id => current_user.id))
+		@poll = Poll.create!(poll_params.merge(:expires_at => Time.now + 24.hours, :user_id => current_user.id))
 		redirect_to poll_path(@poll)
 	end
 
 	def show
 		@poll = Poll.find(params[:id])
-		if current_user.voted_on?(params[:id])
+		if current_user.voted_on?(params[:id]) || @poll.expired?
 			@results = @poll.results
 			render :show
 		else 

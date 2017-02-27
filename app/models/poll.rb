@@ -15,4 +15,12 @@ class Poll < ApplicationRecord
 			[poll_option.option, poll_option.votes.count]
 		end
 	end
+
+	def self.expired
+		where "expires_at < ?", Time.now
+	end
+
+	def self.active
+		where "expires_at >= ?", Time.now
+	end
 end
