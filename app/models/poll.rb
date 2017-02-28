@@ -5,7 +5,7 @@ class Poll < ApplicationRecord
 	validates_presence_of :user_id, :question
 
 	def poll_option_options=(options)
-		options.each do |option|
+		options.reject(&:blank?).each do |option|
 			self.poll_options.build(option: option)
 		end
 	end

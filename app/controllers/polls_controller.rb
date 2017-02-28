@@ -10,8 +10,12 @@ class PollsController < ApplicationController
 	end
 
 	def create
-		@poll = Poll.create!(poll_params.merge(:expires_at => Time.now + 24.hours, :user_id => current_user.id))
-		redirect_to poll_path(@poll)
+		@poll = Poll.create(poll_params.merge(:expires_at => Time.now + 24.hours, :user_id => current_user.id))
+		if @poll.persisted? 
+			redirect_to poll_path(@poll)
+		else
+			render :new
+		end
 	end
 
 	def show

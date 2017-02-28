@@ -1,3 +1,7 @@
+<% @poll.errors.each do |attribute, error| %>
+ <%= "#{attribute.to_s.capitalize} #{error}" %>
+<% end %>
+
 <%= form_for(@poll) do |poll| %>
     Question: <br>
     <%= poll.text_field :question %><br>

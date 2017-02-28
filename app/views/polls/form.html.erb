@@ -2,8 +2,8 @@
 
 <%= form_for @vote do |f| %>
 	<%= f.hidden_field :poll_id, value: @poll.id %>
-	<% @poll.poll_options.each do |poll_option| %>
-		<%= f.radio_button :poll_option_id, poll_option.id %>
+	<% @poll.poll_options.each_with_index do |poll_option, index| %>
+		<%= f.radio_button :poll_option_id, poll_option.id, checked: index == 0 %>
 		<%= f.label :poll_option_id, poll_option.option %><br />
 	<% end %>
 	<%= f.submit %>
