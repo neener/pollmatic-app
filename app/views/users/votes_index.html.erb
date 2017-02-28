@@ -1,0 +1,3 @@
+<% @user.votes.each do |vote| %>
+	<%= vote.poll.question %> <%= vote.poll_option.option %></br>
+<% end %>

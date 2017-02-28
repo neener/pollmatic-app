@@ -5,5 +5,7 @@ Rails.application.routes.draw do
   resources :polls, except: [:edit, :update]
   resources :votes, only: [:create]
 
+  get '/users/:id/votes' => 'users#votes_index'
+
   root 'home#index'
 end
