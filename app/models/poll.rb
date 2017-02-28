@@ -16,6 +16,10 @@ class Poll < ApplicationRecord
 		end
 	end
 
+	def expired?
+		self.expires_at < Time.now
+	end
+
 	def self.expired
 		where "expires_at < ?", Time.now
 	end
@@ -23,4 +27,5 @@ class Poll < ApplicationRecord
 	def self.active
 		where "expires_at >= ?", Time.now
 	end
+
 end
