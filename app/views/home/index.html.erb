@@ -1,3 +1,10 @@
-<% if current_user %>
-	<%= current_user %>
+<%= link_to("Active Polls", polls_path) %></br>
+<%= link_to("Expired Polls", expired_polls_path) %></br>
+
+<% if user_signed_in? %>
+	<%=link_to("New Poll", new_poll_path) %></br>
+	<%=link_to("Sign Out", destroy_user_session_path) %></br>
+<% else %>
+	<%=link_to("Sign In", new_user_session_path) %></br>
+	<%=link_to("Sign Up", new_user_registration_path) %></br>
 <% end %>
