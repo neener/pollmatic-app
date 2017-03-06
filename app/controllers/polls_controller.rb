@@ -40,6 +40,11 @@ class PollsController < ApplicationController
 
 	end
 
+	def expired
+		@polls = Poll.expired
+		render :index
+	end
+
 
 	private
 

@@ -11,8 +11,8 @@ Specs:
 	=> Vote and Poll belongs_to User 
 
 - [x] Include at least one has_many through relationship (x has_many y through z e.g. Recipe has_many Items through Ingredients)
-	=> Poll has_many Votes through Poll_options
-	=> User has_many Poll_options through Votes
+	=> Poll has_many Votes through poll_options
+	=> User has_many poll_options through Votes
 
 - [x] The "through" part of the has_many through includes at least one user submittable attribute (attribute_name e.g. ingredients.quantity) 
 	=> the user voting is the user submitted attribute
@@ -25,8 +25,6 @@ Specs:
 
 - [x] Include a class level ActiveRecord scope method (model object & class method name and URL to see the working feature e.g. User.most_recipes URL: /users/most_recipes)
 	=> method created to check to see if the poll is active or expired. /polls/expired 
-
-	*****still need to create this route *******
 
 - [x] Include a nested form writing to an associated model using a custom attribute writer (form URL, model name e.g. /recipe/new, Item)
 	=> poll_option_options=(options)
