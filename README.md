@@ -5,21 +5,14 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version => ruby 2.3.1p112
+* Rails version => Rails 5.0.1
 
-* System dependencies
+* Configuration => You will need Oauth Github application credentials (client id and client secret)
+  You need to provide a .env file with the name of the variable values
 
-* Configuration
+* Database creation => sqlite3
 
-* Database creation
+* Database initialization => rake db:create db:migrate
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
 # pollmatic-app
