@@ -20,7 +20,7 @@ class PollsController < ApplicationController
 
 	def show
 		@poll = Poll.find(params[:id])
-		if current_user.voted_on?(params[:id]) || @poll.expired?
+		if !user_signed_in? || current_user.voted_on?(params[:id]) || @poll.expired?
 			@results = @poll.results
 			render :show
 		else 
