@@ -1,18 +1,28 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Dependencies
 
-Things you may want to cover:
+- Ruby 2.3.1
+- Rails 5.0.1
+- SQLite
 
-* Ruby version => ruby 2.3.1
-* Rails version => Rails 5.0.1
+## Installation
 
-* Configuration => You will need Oauth Github application credentials (client id and client secret)
-  You need to provide a .env file with the name of the variable values
+In order for Oauth to work you will need to create an .env file with the following values set:
 
-* Database creation => sqlite3
+- GITHUB_APP_ID
+- GITHUB_APP_SECRET
 
-* Database initialization => rake db:create db:migrate
+## Contributing
+
+If you want to contribute to this project fork the respository and submit a pull request.
+
+## License
+
+This project is licensed under the MIT license agreement.
+
+
 
 # pollmatic-app
+
+
