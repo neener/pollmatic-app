@@ -22,7 +22,6 @@ If you want to contribute to this project fork the respository and submit a pull
 This project is licensed under the MIT license agreement.
 
 
-
 # pollmatic-app
 
 

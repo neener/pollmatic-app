@@ -29,4 +29,8 @@ class Poll < ApplicationRecord
 		where "expires_at >= ?", Time.now
 	end
 
+	def self.most_popular
+		where("1 = 1").order('vote_count DESC')
+	end
+
 end

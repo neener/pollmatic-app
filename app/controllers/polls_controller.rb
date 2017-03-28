@@ -2,7 +2,7 @@ class PollsController < ApplicationController
 	before_action :authenticate_user!, only: [:new, :create, :destroy]
 	
 	def index
-		@polls = Poll.active
+		@polls = Poll.most_popular.active
 	end
 
 	def new

@@ -7,7 +7,15 @@ class Vote < ApplicationRecord
 
 	validate :poll_is_active?
 
+	after_create :increment_vote_count
+
 	def poll_is_active?
 		self.errors.add(:poll, "Poll must be active to create a new vote") if self.poll.expired?
+	end
+
+	private
+
+	def increment_vote_count
+		self.poll.update({vote_count: self.poll.vote_count + 1})
 	end
 end
