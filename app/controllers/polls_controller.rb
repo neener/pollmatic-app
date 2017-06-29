@@ -3,6 +3,10 @@ class PollsController < ApplicationController
 	
 	def index
 		@polls = Poll.most_popular.active
+		respond_to do |f|
+      		f.html { render :index }
+      		f.json { render json: @polls }
+    	end
 	end
 
 	def new

@@ -38,6 +38,8 @@ gem 'devise'
 
 gem 'omniauth-github'
 
+gem 'active_model_serializers'
+
 gem 'dotenv-rails', groups: [:development, :test]
 
 group :development, :test do
