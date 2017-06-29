@@ -9,4 +9,9 @@ $(document).ready(function(){
 		})
 		e.preventDefault();
 	})
+
+	$("a.load_expired_polls").on("click", function(e){
+		alert("u clicked expired polls")
+		e.preventDefault();
+	})
 })

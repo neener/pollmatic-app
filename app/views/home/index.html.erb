@@ -1,5 +1,5 @@
 <%= link_to("Active Polls", polls_path, :class => "load_active_polls") %></br>
-<%= link_to("Expired Polls", expired_polls_path) %></br>
+<%= link_to("Expired Polls", expired_polls_path, :class => "load_expired_polls") %></br>
 
 <% if user_signed_in? %>
 	<%=link_to("New Poll", new_poll_path) %></br>
