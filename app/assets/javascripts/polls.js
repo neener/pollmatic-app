@@ -30,7 +30,9 @@ $(() => {
 const bindClickHandlers = () => {
 	$('.load_active_polls').on('click', (e) => {
 		e.preventDefault()
-		console.log('hello')
+		fetch(`/polls.json`)
+			.then(res => res.json())
+			.then(data => console.log(data))
 	})
 }
 
