@@ -55,8 +55,9 @@ function Poll(poll){
 Poll.prototype.formatIndex = function(){
 	//build out the markup you want to display
 	let pollHtml = `
-		<h1>${this.question}</h1>
+		<a href="/polls/${this.id}"><h1>${this.question}</h1></a>
 	`
 
 	return pollHtml
 }
+

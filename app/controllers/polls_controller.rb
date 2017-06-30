@@ -26,7 +26,10 @@ class PollsController < ApplicationController
 		@poll = Poll.find(params[:id])
 		if !user_signed_in? || current_user.voted_on?(params[:id]) || @poll.expired?
 			@results = @poll.results
-			render :show
+			respond_to do |f|
+      			f.html { render :show }
+      			f.json { render json: @results }
+    		end
 		else 
 			@vote = Vote.new
 			render :form
