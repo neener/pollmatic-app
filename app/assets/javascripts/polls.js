@@ -35,17 +35,28 @@ const bindClickHandlers = () => {
 			.then(polls => {
 				$('#app-container').html('')
 				polls.forEach(poll => {
-					console.log(polls)
+					//creates a new post object that is assign to the newPoll variable that has all the attributes assigned in the constructor function
+					let newPoll = new Poll(poll)
+					console.log(newPoll)
 				})
 			})
 	})
 }
 
+function Poll(poll){
+	this.id = poll.id
+	this.question = poll.question
+	this.vote_count = poll.vote_count
+	this.poll_options = poll.poll_options
+}
 
+Poll.prototype.formatIndex = () => {
+	//build out the markup you want to display
+	let pollHtml = `
+		<h1>${this.question}</h1>
+	`
 
-	function Poll(poll){
-		this.id = poll.id
-		this.question = poll.question
-		this.vote_count = poll.vote_count
-		this.poll_options = poll.poll_options
-	}
+	return pollHtml
+}
+
+var link = '<a href="/polls/' + poll.id + '">' + poll.question + '</a>' + '</br>'
