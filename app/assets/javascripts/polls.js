@@ -31,7 +31,25 @@ const bindClickHandlers = () => {
 	$('.load_active_polls').on('click', (e) => {
 		e.preventDefault()
 		history.pushState(null, null, "polls")
-		fetch(`/polls.json`)
+		getPosts()
+	})
+
+	$(document).on('click', ".show_link", function(e){
+		e.preventDefault()
+		$('#app-container').html('')
+		let id = $(this).attr('data-id')
+		fetch(`/polls/${id}.json`)
+		.then(res => res.json())
+		.then(poll => {
+			let newPoll = new Poll(poll)
+			let pollHtml = newPoll.formatShow()
+			$('#app-container').append(pollHtml)
+		})
+	})
+}
+
+const getPosts = () => {
+	fetch(`/polls.json`)
 			.then(res => res.json())
 			.then(polls => {
 				$('#app-container').html('')
@@ -42,17 +60,6 @@ const bindClickHandlers = () => {
 					$('#app-container').append(pollHtml)
 				})
 			})
-	})
-
-	$(document).on('click', ".show_link", function(e){
-		e.preventDefault()
-		let id = $(this).attr('data-id')
-		fetch(`/polls/${id}.json`)
-		.then(res => res.json())
-		.then(poll => {
-			console.log(poll)
-		})
-	})
 }
 
 function Poll(poll){
