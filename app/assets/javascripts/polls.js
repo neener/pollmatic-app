@@ -37,7 +37,7 @@ const bindClickHandlers = () => {
 	$('.load_expired_polls').on('click', (e) => {
 		console.log('clicked expired polls')
 		e.preventDefault()
-		// history.pushState(null, null, "polls/expired")
+		history.pushState(null, null, "polls/expired")
 		getExpiredPolls()
 	})
 
