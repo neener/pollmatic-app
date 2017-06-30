@@ -32,7 +32,12 @@ const bindClickHandlers = () => {
 		e.preventDefault()
 		fetch(`/polls.json`)
 			.then(res => res.json())
-			.then(data => console.log(data))
+			.then(polls => {
+				$('#app-container').html('')
+				polls.forEach(poll => {
+					console.log(polls)
+				})
+			})
 	})
 }
 
