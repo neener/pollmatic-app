@@ -3,7 +3,10 @@ class PollsController < ApplicationController
 	
 	def index
 		@polls = Poll.most_popular.active
-		render :json => @polls
+		respond_to do |f|
+      		f.html { render :index }
+      		f.json { render json: @polls }
+    	end
 	end
 
 	def new
@@ -43,7 +46,10 @@ class PollsController < ApplicationController
 
 	def expired
 		@polls = Poll.expired
-		render :json => @polls
+		respond_to do |f|
+      		f.html { render :index }
+      		f.json { render json: @polls }
+    	end
 	end
 
 
