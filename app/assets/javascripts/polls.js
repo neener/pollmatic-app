@@ -44,7 +44,15 @@ const bindClickHandlers = () => {
 			})
 	})
 
-	$
+	$(document).on('click', ".show_link", function(e){
+		e.preventDefault()
+		let id = $(this).attr('data-id')
+		fetch(`/polls/${id}.json`)
+		.then(res => res.json())
+		.then(poll => {
+			console.log(poll)
+		})
+	})
 }
 
 function Poll(poll){
@@ -57,9 +65,16 @@ function Poll(poll){
 Poll.prototype.formatIndex = function(){
 	//build out the markup you want to display
 	let pollHtml = `
-		<a href="/polls/${this.id}" class="show_link"><h1>${this.question}</h1></a>
+		<a href="/polls/${this.id}" data-id="${this.id}" class="show_link"><h1>${this.question}</h1></a>
 	`
 
+	return pollHtml
+}
+
+Poll.prototype.formatShow = function(){
+	let pollHtml = `
+		<h3>${this.question}</h3>
+	`
 	return pollHtml
 }
 
