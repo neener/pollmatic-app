@@ -30,6 +30,7 @@ $(() => {
 const bindClickHandlers = () => {
 	$('.load_active_polls').on('click', (e) => {
 		e.preventDefault()
+		history.pushState(null, null, "polls")
 		fetch(`/polls.json`)
 			.then(res => res.json())
 			.then(polls => {
@@ -37,7 +38,8 @@ const bindClickHandlers = () => {
 				polls.forEach(poll => {
 					//creates a new post object that is assign to the newPoll variable that has all the attributes assigned in the constructor function
 					let newPoll = new Poll(poll)
-					console.log(newPoll)
+					let pollHtml = newPoll.formatIndex()
+					$('#app-container').append(pollHtml)
 				})
 			})
 	})
@@ -50,7 +52,7 @@ function Poll(poll){
 	this.poll_options = poll.poll_options
 }
 
-Poll.prototype.formatIndex = () => {
+Poll.prototype.formatIndex = function(){
 	//build out the markup you want to display
 	let pollHtml = `
 		<h1>${this.question}</h1>
@@ -58,5 +60,3 @@ Poll.prototype.formatIndex = () => {
 
 	return pollHtml
 }
-
-var link = '<a href="/polls/' + poll.id + '">' + poll.question + '</a>' + '</br>'
