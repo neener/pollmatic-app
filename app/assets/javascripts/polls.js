@@ -1,28 +1,3 @@
-// $(document).ready(function(){
-// 	$("a.load_active_polls").on("click", function(e){
-// 		$.ajax('/polls.json').done(function(data){
-// 			$("div.content ol").html("")
-// 			data.forEach(function(poll){
-// 				var link = '<a href="/polls/' + poll.id + '">' + poll.question + '</a>' + '</br>'
-// 				$("div.content ol").append(link)
-// 			})
-// 		})
-// 		e.preventDefault();
-// 	})
-
-// 	$("a.load_expired_polls").on("click", function(e){
-// 		$.ajax('/polls/expired.json').done(function(data){
-// 			$("div.content ol").html("")
-// 			data.forEach(function(poll){
-// 				var link = '<a href="/polls/' + poll.id + '">' + poll.question + '</a>' + '</br>'
-// 				$("div.content ol").append(link)
-// 			})
-// 		})
-// 		e.preventDefault();
-// 	})
-
-// })
-
 $(() => {
 	bindClickHandlers()
 })
@@ -53,6 +28,8 @@ const bindClickHandlers = () => {
 			$('#app-container').append(pollHtml)
 		})
 	})
+
+	$(document).on('click', '')
 }
 
 const getPolls = () => {
@@ -102,6 +79,7 @@ Poll.prototype.formatIndex = function(){
 Poll.prototype.formatShow = function(){
 	let pollHtml = `
 		<h3>${this.question}</h3>
+		<button class="next-post">Next</button>
 	`
 	return pollHtml
 }
