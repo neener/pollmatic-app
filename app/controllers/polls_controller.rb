@@ -22,9 +22,10 @@ class PollsController < ApplicationController
 		end
 	end
 
-	def next
-		
-	end
+	# def next
+	# 	@next_poll = @poll.next
+	# 	render json: @next_poll
+	# end
 
 	def show
 		@poll = Poll.find(params[:id])

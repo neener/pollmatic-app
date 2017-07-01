@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :votes, only: [:create]
 
   get 'users/:id/votes' => 'users#votes_index'
-  get 'polls/:id/next', to: 'posts#next'
+  # get 'polls/:id/next', to: 'poll#next'
 
   root 'home#index'
 

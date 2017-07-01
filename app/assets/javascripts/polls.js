@@ -29,7 +29,10 @@ const bindClickHandlers = () => {
 		})
 	})
 
-	$(document).on('click', '')
+	// $(document).on('click', 'next-poll'. function(){
+	// 	let id = $(this).attr('data-id')
+	// 	fetch('polls/${id}/next')
+	// })
 }
 
 const getPolls = () => {
@@ -79,7 +82,7 @@ Poll.prototype.formatIndex = function(){
 Poll.prototype.formatShow = function(){
 	let pollHtml = `
 		<h3>${this.question}</h3>
-		<button class="next-post">Next</button>
+		// <button class="next-poll">Next</button>
 	`
 	return pollHtml
 }
