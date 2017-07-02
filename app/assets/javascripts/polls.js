@@ -29,6 +29,11 @@ const bindClickHandlers = () => {
 		})
 	})
 
+	$(document).on('click', ".new_poll", function(e){
+		e.preventDefault()
+		console.log("newpollclicko")
+	})
+
 	// $(document).on('click', 'next-poll'. function(){
 	// 	let id = $(this).attr('data-id')
 	// 	fetch(`polls/${id}/next`)
@@ -77,7 +82,6 @@ Poll.prototype.formatIndex = function(){
 	let pollHtml = `
 		<a href="/polls/${this.id}" data-id="${this.id}" class="show_link"><h1>${this.question}</h1></a>
 	`
-
 	return pollHtml
 }
 
@@ -90,4 +94,6 @@ Poll.prototype.formatShow = function(){
 	`
 	return pollHtml
 }
+
+
 
