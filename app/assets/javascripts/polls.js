@@ -162,10 +162,13 @@ Poll.prototype.show = function(){
 };
 
 Poll.prototype.formatShow = function(){
+	let results = this.results.reduce(function(str, result){
+		return str + `${result[0]}: ${result[1]}<br />`;
+	},"")
 	
 	let pollHtml = `
 		<h3>${this.question}</h3>
-		<h4>${this.results}</h4>
+		<h4>${results}</h4>
 		<button class="next-poll">Next</button>
 	`
 	return pollHtml
