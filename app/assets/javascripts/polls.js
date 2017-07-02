@@ -68,7 +68,9 @@ function Poll(poll){
 	this.question = poll.question
 	this.vote_count = poll.vote_count
 	this.poll_options = poll.poll_options
+	this.results = poll.results
 }
+
 
 Poll.prototype.formatIndex = function(){
 	//build out the markup you want to display
@@ -80,9 +82,10 @@ Poll.prototype.formatIndex = function(){
 }
 
 Poll.prototype.formatShow = function(){
+	
 	let pollHtml = `
 		<h3>${this.question}</h3>
-		// <button class="next-poll">Next</button>
+		<h4>${this.results}</h4>
 	`
 	return pollHtml
 }

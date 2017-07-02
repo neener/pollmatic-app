@@ -33,7 +33,7 @@ class PollsController < ApplicationController
 			@results = @poll.results
 			respond_to do |f|
       			f.html { render :show }
-      			f.json { render json: @results }
+      			f.json { render json: @poll }
     		end
 		else 
 			@vote = Vote.new
