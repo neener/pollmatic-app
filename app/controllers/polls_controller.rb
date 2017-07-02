@@ -36,7 +36,6 @@ class PollsController < ApplicationController
 	def show
 		@poll = Poll.find(params[:id])
 		if !user_signed_in? || current_user.voted_on?(params[:id]) || @poll.expired?
-			@results = @poll.results
 			respond_to do |f|
       			f.html { render :show }
       			f.json { render json: @poll }

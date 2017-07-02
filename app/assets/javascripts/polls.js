@@ -19,7 +19,13 @@ const bindClickHandlers = () => {
 		e.preventDefault()
 		$('#app-container').html('')
 		let id = $(this).attr('data-id')
-		fetch(`/polls/${id}.json`)
+		fetch(`/polls/${id}.json`,{
+		credentials: 'same-origin',
+		headers: new Headers({
+	        'X-Requested-With': 'XMLHttpRequest',
+			'Content-Type': 'application/json',
+	        'Accept': 'application/json'
+		})})
 		.then(res => res.json())
 		.then(poll => {
 			let newPoll = new Poll(poll)
@@ -44,7 +50,13 @@ const bindClickHandlers = () => {
 }
 
 const getPolls = () => {
-	fetch(`/polls.json`)
+	fetch(`/polls.json`,{
+		credentials: 'same-origin',
+		headers: new Headers({
+	        'X-Requested-With': 'XMLHttpRequest',
+			'Content-Type': 'application/json',
+	        'Accept': 'application/json'
+		})})
 			.then(res => res.json())
 			.then(polls => {
 				$('#app-container').html('')
@@ -58,7 +70,13 @@ const getPolls = () => {
 }
 
 const getExpiredPolls = () => {
-	fetch(`/polls/expired.json`)
+	fetch(`/polls/expired.json`,{
+		credentials: 'same-origin',
+		headers: new Headers({
+	        'X-Requested-With': 'XMLHttpRequest',
+			'Content-Type': 'application/json',
+	        'Accept': 'application/json'
+		})})
 			.then(res => res.json())
 			.then(polls => {
 				$('#app-container').html('')
