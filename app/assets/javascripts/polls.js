@@ -96,6 +96,7 @@ function Poll(poll){
 	this.poll_options = poll.poll_options
 	this.results = poll.results
 	this.current_user_has_voted = poll.current_user_has_voted
+	this.expired = poll.expired
 }
 
 
@@ -108,7 +109,7 @@ Poll.prototype.formatIndex = function(){
 }
 
 Poll.prototype.show = function(){
-	if (this.current_user_has_voted){
+	if (this.current_user_has_voted || this.expired){
 		$('#app-container').html(this.formatShow());
 		//bind the next button
 	} else {
