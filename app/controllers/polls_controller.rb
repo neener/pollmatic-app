@@ -15,11 +15,17 @@ class PollsController < ApplicationController
 
 	def create
 		@poll = Poll.create(poll_params.merge(:expires_at => Time.now + 24.hours, :user_id => current_user.id))
-		if @poll.persisted? 
-			redirect_to poll_path(@poll)
-		else
-			render :new
-		end
+		respond_to do |f|
+      		f.html { redirect_to poll_path(@poll) }
+      		f.json { 
+      			if @poll.persisted?
+	      			render json: @poll 
+	      		else 
+	      			render json: {errors: @poll.errors.full_messages}, status: 422
+	      		end
+
+      		}
+		end	
 	end
 
 	# def next
@@ -55,7 +61,7 @@ class PollsController < ApplicationController
 	def expired
 		@polls = Poll.expired
 		respond_to do |f|
-      		f.html { render :expired }
+      		f.html { render :index }
       		f.json { render json: @polls }
     	end
 	end

@@ -32,7 +32,7 @@ const bindClickHandlers = () => {
 		e.preventDefault()
 		$('#app-container').html('')
 		$('#app-container').append(Poll.formatForm())
-		$('#submit_new_poll').one('click', Poll.submitNewPoll)
+		$('#submit_new_poll').on('click', Poll.submitNewPoll)
 	})
 
 
@@ -89,6 +89,15 @@ Poll.prototype.formatIndex = function(){
 	return pollHtml
 }
 
+Poll.prototype.show = function(){
+	//if(this.votedON)
+	$('#app-container').html(this.formatShow());
+	//bind the next button
+	//else
+	//show the voting form
+
+};
+
 Poll.prototype.formatShow = function(){
 	
 	let pollHtml = `
@@ -135,7 +144,23 @@ Poll.submitNewPoll = function(e){
 		}),
 		body: JSON.stringify({poll: { question: question, poll_option_options: [poll_option_1, poll_option_2, poll_option_3]}})
 	}).then(function(response){
-		console.log(JSON.parse(response.body))
+		if (response.ok){
+			return response.json();
+		} else {
+			return response.json().then(function(json){
+				let err = new Error(response.status);
+				err.messages = json.errors;
+				throw err;
+			});	
+		}
+	}).then(function(data){
+		var poll = new Poll(data)
+		poll.show();
+	}).catch(function(err){
+		let messages = err.messages;
+		messages.forEach(function(mess){
+			$('#app-container').append("<p>" + mess + "</p>")
+		});
 	})
 
 }
