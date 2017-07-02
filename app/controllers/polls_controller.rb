@@ -55,7 +55,7 @@ class PollsController < ApplicationController
 	def expired
 		@polls = Poll.expired
 		respond_to do |f|
-      		f.html { render :index }
+      		f.html { render :expired }
       		f.json { render json: @polls }
     	end
 	end

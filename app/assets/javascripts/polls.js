@@ -10,7 +10,6 @@ const bindClickHandlers = () => {
 	})
 
 	$('.load_expired_polls').on('click', (e) => {
-		console.log('clicked expired polls')
 		e.preventDefault()
 		history.pushState(null, null, "expired")
 		getExpiredPolls()
@@ -31,8 +30,12 @@ const bindClickHandlers = () => {
 
 	$(document).on('click', ".new_poll", function(e){
 		e.preventDefault()
-		console.log("newpollclicko")
+		$('#app-container').html('')
+		$('#app-container').append(Poll.formatForm())
+		$('#submit_new_poll').one('click', Poll.submitNewPoll)
 	})
+
+
 
 	// $(document).on('click', 'next-poll'. function(){
 	// 	let id = $(this).attr('data-id')
@@ -68,6 +71,7 @@ const getExpiredPolls = () => {
 			})
 }
 
+
 function Poll(poll){
 	this.id = poll.id
 	this.question = poll.question
@@ -95,5 +99,45 @@ Poll.prototype.formatShow = function(){
 	return pollHtml
 }
 
+Poll.formatForm = function(){
+
+	let pollFormHtml = `
+		<label for="question">Question:</label><br />
+		<input type="text" id="poll_question" /><br />
+
+		<label for="options">Options:</label><br />
+		<input type="text" id="option_1" />
+		<input type="text" id="option_2" />
+		<input type="text" id="option_3" /><br />
+
+		<button id="submit_new_poll">Submit</button>
+
+	`
+	return pollFormHtml
+}
+
+Poll.submitNewPoll = function(e){
+	e.preventDefault()
+	let token = $('meta[name="csrf-token"]').attr('content');
+	let question = $("#poll_question").val()
+	let poll_option_1 = $("#option_1").val()
+	let poll_option_2 = $("#option_2").val()
+	let poll_option_3 = $("#option_3").val()
+	console.log(token)
+	fetch('/polls', {
+		method: 'POST',
+		credentials: 'same-origin',
+		headers: new Headers({
+			'X-CSRF-Token': token,
+	        'X-Requested-With': 'XMLHttpRequest',
+			'Content-Type': 'application/json',
+	        'Accept': 'application/json'
+		}),
+		body: JSON.stringify({poll: { question: question, poll_option_options: [poll_option_1, poll_option_2, poll_option_3]}})
+	}).then(function(response){
+		console.log(JSON.parse(response.body))
+	})
+
+}
 
 
