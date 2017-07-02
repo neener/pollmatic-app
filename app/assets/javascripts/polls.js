@@ -29,8 +29,7 @@ const bindClickHandlers = () => {
 		.then(res => res.json())
 		.then(poll => {
 			let newPoll = new Poll(poll)
-			let pollHtml = newPoll.formatShow()
-			$('#app-container').append(pollHtml)
+			newPoll.show()
 		})
 	})
 
@@ -96,6 +95,7 @@ function Poll(poll){
 	this.vote_count = poll.vote_count
 	this.poll_options = poll.poll_options
 	this.results = poll.results
+	this.current_user_has_voted = poll.current_user_has_voted
 }
 
 
@@ -108,12 +108,56 @@ Poll.prototype.formatIndex = function(){
 }
 
 Poll.prototype.show = function(){
-	//if(this.votedON)
-	$('#app-container').html(this.formatShow());
-	//bind the next button
-	//else
-	//show the voting form
-
+	if (this.current_user_has_voted){
+		$('#app-container').html(this.formatShow());
+		//bind the next button
+	} else {
+		$('#app-container').html(this.formatVoteForm());
+		let id = this.id
+		$('#submit_vote').on('click', function(e){
+			e.preventDefault();
+			let poll_option_id = $('input[type="radio"]:checked:first').val();
+			let token = $('meta[name="csrf-token"]').attr('content');
+			fetch('/votes', {
+				method: 'POST',
+				credentials: 'same-origin',
+				headers: new Headers({
+					'X-CSRF-Token': token,
+			        'X-Requested-With': 'XMLHttpRequest',
+					'Content-Type': 'application/json',
+			        'Accept': 'application/json'
+				}),
+				body: JSON.stringify({vote: {poll_option_id: poll_option_id, poll_id: id}})
+			}).then(function(response){
+				if (response.ok){
+					return fetch(`/polls/${id}.json`,{
+						credentials: 'same-origin',
+						headers: new Headers({
+					        'X-Requested-With': 'XMLHttpRequest',
+							'Content-Type': 'application/json',
+					        'Accept': 'application/json'
+						})})
+				} else {
+					return response.json().then(function(json){
+						let err = new Error(response.status);
+						err.messages = json.errors;
+						throw err;
+					});	
+				}
+			}).then(res => res.json())
+				.then(poll => {
+					let newPoll = new Poll(poll);
+					console.log(newPoll.current_user_has_voted)
+					newPoll.show();
+				}).catch(function(err){
+				let messages = err.messages;
+				messages.forEach(function(mess){
+					$('#app-container').append("<p>" + mess + "</p>")
+				});
+			})
+		})
+		//bind the next button
+	}
 };
 
 Poll.prototype.formatShow = function(){
@@ -183,4 +227,13 @@ Poll.submitNewPoll = function(e){
 
 }
 
+Poll.prototype.formatVoteForm = function(){
+	let html = `${this.question} 
+		<form>`
+		this.poll_options.forEach(function(option, index){
+			html +=  `<input type="radio" name="poll_option_id" value="${option.id}"> ${option.option} </input><br />`
+		})
+		html += `<button id="submit_vote">Submit</button></form>`
+	return html;
 
+}
