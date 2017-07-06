@@ -3,6 +3,7 @@ class PollSerializer < ActiveModel::Serializer
   has_many :poll_options
 
   def current_user_has_voted
+  	return false unless scope.current_user
   	scope.current_user.voted_on?(object.id)
   end
 

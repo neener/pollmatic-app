@@ -11,7 +11,7 @@ const bindClickHandlers = () => {
 
 	$('.load_expired_polls').on('click', (e) => {
 		e.preventDefault()
-		history.pushState(null, null, "expired")
+		history.pushState(null, null, "#expired")
 		getExpiredPolls()
 	})
 
@@ -42,10 +42,13 @@ const bindClickHandlers = () => {
 
 
 
-	// $(document).on('click', 'next-poll'. function(){
-	// 	let id = $(this).attr('data-id')
-	// 	fetch(`polls/${id}/next`)
-	// })
+	$(document).on('click', '.next-poll', function(){
+		let id = $(this).attr('data-id')
+		console.log(id)
+		fetch(`polls/${id}/next`)
+		.then(res => res.json())
+		.then(poll => $('#app-container').html('<h1>Hello</h1>'))
+	})
 }
 
 const getPolls = () => {
@@ -169,7 +172,7 @@ Poll.prototype.formatShow = function(){
 	let pollHtml = `
 		<h3>${this.question}</h3>
 		<h4>${results}</h4>
-		<button class="next-poll">Next</button>
+		<button class="next-poll" data-id=${this.id}>Next</button>
 	`
 	return pollHtml
 }

@@ -33,14 +33,14 @@ class Poll < ApplicationRecord
 		where("1 = 1").order('vote_count DESC')
 	end
 
-	# def next
-	# 	poll = Poll.where("id > ?", id).first
+	def next
+		poll = Poll.where("id > ?", id).first
 
-	# 	if poll
-	# 		poll
-	# 	else
-	# 		Poll.first
-	# 	end
-	# end
+		if poll
+			poll
+		else
+			Poll.first
+		end
+	end
 
 end
