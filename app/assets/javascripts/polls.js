@@ -44,10 +44,12 @@ const bindClickHandlers = () => {
 
 	$(document).on('click', '.next-poll', function(){
 		let id = $(this).attr('data-id')
-		console.log(id)
 		fetch(`polls/${id}/next`)
 		.then(res => res.json())
-		.then(poll => $('#app-container').html('<h1>Hello</h1>'))
+		.then(poll => {
+			let newPoll = new Poll(poll);
+			newPoll.show();
+		})
 	})
 }
 
