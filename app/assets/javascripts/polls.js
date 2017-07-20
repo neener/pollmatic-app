@@ -37,9 +37,9 @@ const bindClickHandlers = () => {
 		e.preventDefault()
 		$('#app-container').html('')
 		$('#app-container').append(Poll.formatForm())
-		$('#submit_new_poll').on('click', Poll.submitNewPoll)
+		bindAddInputButtonEventListener()
+		$('#new_poll_form').on('submit', Poll.submitNewPoll)
 	})
-
 
 
 	$(document).on('click', '.next-poll', function(){
@@ -65,12 +65,19 @@ const getPolls = () => {
 			.then(polls => {
 				$('#app-container').html('')
 				polls.forEach(poll => {
-					//creates a new post object that is assign to the newPoll variable that has all the attributes assigned in the constructor function
+					//creates a new poll object that is assign to the newPoll variable that has all the attributes assigned in the constructor function
 					let newPoll = new Poll(poll)
 					let pollHtml = newPoll.formatIndex()
 					$('#app-container').append(pollHtml)
 				})
 			})
+}
+
+const bindAddInputButtonEventListener = () => {
+	$('#add_new_poll_option').on('click', function(event) {
+		event.preventDefault()
+		Poll.addNewOptionInput()
+	})
 }
 
 const getExpiredPolls = () => {
@@ -94,16 +101,49 @@ const getExpiredPolls = () => {
 }
 
 
-function Poll(poll){
-	this.id = poll.id
-	this.question = poll.question
-	this.vote_count = poll.vote_count
-	this.poll_options = poll.poll_options
-	this.results = poll.results
-	this.current_user_has_voted = poll.current_user_has_voted
-	this.expired = poll.expired
+function Poll(attributes){
+	this.id = attributes.id
+	this.question = attributes.question
+	this.vote_count = attributes.vote_count
+	this.poll_options = attributes.poll_options
+	this.results = attributes.results
+	this.current_user_has_voted = attributes.current_user_has_voted
+	this.expired = attributes.expired
+	this.option_number = attributes.poll_options.length
 }
 
+Poll.formatForm = function(){
+
+	let pollFormHtml = `
+		<form id="new_poll_form">
+			<label for="question">Question:</label><br />
+			<input type="text" id="poll_question" /><br />
+
+			<div id="poll_options">
+				<label for="options">Options:</label><br />
+				<div>
+					<input type="text" name="poll[poll_options]" />
+				</div>
+			</div>
+
+			<button id="add_new_poll_option">Add another poll option</button>
+
+			<button type="submit">Submit</button>
+		</form>
+
+	`
+	return pollFormHtml
+}
+
+
+Poll.addNewOptionInput = function() {
+	$('#poll_options').append(`
+		<div>
+			<input type="text" name="poll[poll_options][]"/>
+		</div>
+	`)
+	bindAddInputButtonEventListener()
+}
 
 Poll.prototype.formatIndex = function(){
 	//build out the markup you want to display
@@ -179,31 +219,15 @@ Poll.prototype.formatShow = function(){
 	return pollHtml
 }
 
-Poll.formatForm = function(){
-
-	let pollFormHtml = `
-		<label for="question">Question:</label><br />
-		<input type="text" id="poll_question" /><br />
-
-		<label for="options">Options:</label><br />
-		<input type="text" id="option_1" />
-		<input type="text" id="option_2" />
-		<input type="text" id="option_3" /><br />
-
-		<button id="submit_new_poll">Submit</button>
-
-	`
-	return pollFormHtml
-}
-
 Poll.submitNewPoll = function(e){
 	e.preventDefault()
 	let token = $('meta[name="csrf-token"]').attr('content');
-	let question = $("#poll_question").val()
-	let poll_option_1 = $("#option_1").val()
-	let poll_option_2 = $("#option_2").val()
-	let poll_option_3 = $("#option_3").val()
-	console.log(token)
+	
+	var $inputs = $('#new_poll_form :input');
+    var data = {};
+	$(this).serializeArray().map(function(x){data[x.name] = x.value;}); 
+
+    debugger;
 	fetch('/polls', {
 		method: 'POST',
 		credentials: 'same-origin',
@@ -213,7 +237,7 @@ Poll.submitNewPoll = function(e){
 			'Content-Type': 'application/json',
 	        'Accept': 'application/json'
 		}),
-		body: JSON.stringify({poll: { question: question, poll_option_options: [poll_option_1, poll_option_2, poll_option_3]}})
+		body: data
 	}).then(function(response){
 		if (response.ok){
 			return response.json();

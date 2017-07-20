@@ -5,8 +5,9 @@ class Poll < ApplicationRecord
 	validates :poll_options, presence: true, length: { minimum: 2, too_short: "(minimum is 2)"}
 	validates_presence_of :user_id, :question
 
-	def poll_option_options=(options)
-		options.reject(&:blank?).each do |option|
+	def poll_options=(poll_options)
+	binding.pry
+		poll_options.reject(&:blank?).each do |option|
 			self.poll_options.build(option: option)
 		end
 	end
