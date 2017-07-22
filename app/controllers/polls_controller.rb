@@ -14,7 +14,7 @@ class PollsController < ApplicationController
 	end
 
 	def create
-		binding.pry
+		# binding.pry
 		@poll = Poll.create(poll_params.merge(:expires_at => Time.now + 24.hours, :user_id => current_user.id))
 		respond_to do |f|
       		f.html { redirect_to poll_path(@poll) }

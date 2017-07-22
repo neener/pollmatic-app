@@ -92,7 +92,6 @@ const getExpiredPolls = () => {
 			.then(polls => {
 				$('#app-container').html('')
 				polls.forEach(poll => {
-					//creates a new post object that is assign to the newPoll variable that has all the attributes assigned in the constructor function
 					let newPoll = new Poll(poll)
 					let pollHtml = newPoll.formatIndex()
 					$('#app-container').append(pollHtml)
@@ -117,12 +116,12 @@ Poll.formatForm = function(){
 	let pollFormHtml = `
 		<form id="new_poll_form">
 			<label for="question">Question:</label><br />
-			<input type="text" id="poll_question" /><br />
+			<input type="text" name="question" /><br />
 
 			<div id="poll_options">
 				<label for="options">Options:</label><br />
 				<div>
-					<input type="text" name="poll[poll_options]" />
+					<input type="text" name="poll_option" />
 				</div>
 			</div>
 
@@ -139,7 +138,7 @@ Poll.formatForm = function(){
 Poll.addNewOptionInput = function() {
 	$('#poll_options').append(`
 		<div>
-			<input type="text" name="poll[poll_options][]"/>
+			<input type="text" name="poll_option"/>
 		</div>
 	`)
 	bindAddInputButtonEventListener()
@@ -219,45 +218,38 @@ Poll.prototype.formatShow = function(){
 	return pollHtml
 }
 
+function getPollFormData() {
+	return {
+	  poll: {
+	    question: $('input[name="question"]').val(),
+	    poll_options: $('input[name="poll_option"]').serializeArray().map(input => input.value)
+	  }
+	}
+}
+
+function headers() {
+	return new Headers({
+		'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+        'X-Requested-With': 'XMLHttpRequest',
+		'Content-Type': 'application/json',
+        'Accept': 'application/json'
+	})
+}
+
 Poll.submitNewPoll = function(e){
 	e.preventDefault()
-	let token = $('meta[name="csrf-token"]').attr('content');
-	
-	var $inputs = $('#new_poll_form :input');
-    var data = {};
-	$(this).serializeArray().map(function(x){data[x.name] = x.value;}); 
 
-    debugger;
-	fetch('/polls', {
+	var request = {
 		method: 'POST',
 		credentials: 'same-origin',
-		headers: new Headers({
-			'X-CSRF-Token': token,
-	        'X-Requested-With': 'XMLHttpRequest',
-			'Content-Type': 'application/json',
-	        'Accept': 'application/json'
-		}),
-		body: data
-	}).then(function(response){
-		if (response.ok){
-			return response.json();
-		} else {
-			return response.json().then(function(json){
-				let err = new Error(response.status);
-				err.messages = json.errors;
-				throw err;
-			});	
-		}
-	}).then(function(data){
-		var poll = new Poll(data)
-		poll.show();
-	}).catch(function(err){
-		let messages = err.messages;
-		messages.forEach(function(mess){
-			$('#app-container').append("<p>" + mess + "</p>")
-		});
-	})
-
+		headers: headers(),
+		body: JSON.stringify(getPollFormData())
+	}
+	
+	fetch('/polls', request)
+		.then(response => response.json())
+		.then(data => new Poll(data).show())
+		.catch(({ messages }) => messages.forEach(message => $('#app-container').append(`<p>${message}</p>`)))
 }
 
 Poll.prototype.formatVoteForm = function(){
