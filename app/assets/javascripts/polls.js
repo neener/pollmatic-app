@@ -1,3 +1,5 @@
+'use strict';
+
 $(() => {
 	bindClickHandlers()
 })
@@ -249,7 +251,7 @@ Poll.submitNewPoll = function(e){
 	fetch('/polls', request)
 		.then(response => response.json())
 		.then(data => new Poll(data).show())
-		.catch(({ messages }) => messages.forEach(message => $('#app-container').append(`<p>${message}</p>`)))
+		.catch((e) => e.messages.forEach(message => $('#app-container').append(`<p>${message}</p>`)))
 }
 
 Poll.prototype.formatVoteForm = function(){
